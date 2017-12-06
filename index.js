@@ -8,10 +8,16 @@ const R = require('ramda');
 
 const name = 'foo';
 const type = 'bar';
+
 const trans = opbeat.startTransaction(name, type);
+
+const trace = opbeat.buildTrace();
+if (trace) { trace.start('doing stuff'); }
 
 const ns = R.times((_) => Math.floor(Math.random() * 1000), 1000);
 console.log(R.reduce((a, n) => a + n, 0, ns));
+
+if (trace) { trace.end(); }
 
 trans.result = 200;
 trans.end();
